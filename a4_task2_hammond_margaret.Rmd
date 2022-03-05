@@ -23,14 +23,22 @@ library(patchwork)
 
 ```
 
-### 1. Summary
+
+Summary 
+
+  ***need engaging image***
+In this task, I will be doing a time series analysis on adult fish passage from 2001 to 2011 at Willamette Falls fish ladder on the Willamette River, Oregon. In this document I will show a map of the fish ladder location, two time series analysis of adult passage for coho, jack coho, and steelhead salmon. Lastly, a graph will display the annual total counts of fish passage for the 3 selected species: coho, jack coho, and steelhead. 
+
+## Test Test {.tabset}
+
+
   ***need engaging image***
 In this task, I will be doing a time series analysis on adult fish passage from 2001 to 2011 at Willamette Falls fish ladder on the Willamette River, Oregon. In this document I will show a map of the fish ladder location, two time series analysis of adult passage for coho, jack coho, and steelhead salmon. Lastly, a graph will display the annual total counts of fish passage for the 3 selected species: coho, jack coho, and steelhead. 
 
 
 ***HAVE TO INCORPORATE TABS*** 
   
-### 2. Read in the Data
+### 2. Read in the Data {.tabset}
 
 ```{r}
 salmon <- read_csv(here('data/fish/willamette_fish_passage.csv'))
@@ -40,7 +48,7 @@ salmon <- read_csv(here('data/fish/willamette_fish_passage.csv'))
 
 
 
-### 3. ***MUST TAB THIS*** Original Time Series
+### 3. ***MUST TAB THIS*** Original Time Series {.tabset}
 
 ```{r}
 
@@ -55,7 +63,12 @@ salmon_ts <- salmon %>%
 salmon_ts_long <- salmon_ts %>% 
   pivot_longer(c(steelhead, coho, jack_coho),
                names_to = "fish",
-               values_to = "count")
+               values_to = "count") %>% 
+   mutate(fish = case_when(
+    fish == 'jack_coho' ~ "Jack Coho",
+    fish == 'coho' ~ "Coho",
+    fish == 'steelhead' ~ "Steelhead"
+  ))
 
 ### create the actual plot
 
@@ -76,7 +89,7 @@ ggplot(data = salmon_ts_long,
   - Jack Coho species is the most infrequent user of the fish ladder, or the data had a hard time capturing their usage.
 
 
-### 4. ***NEW TAB*** Seasonplot
+### 4. ***NEW TAB*** Seasonplot {.tabset}
 
 ```{r}
 ### create a finalized seasonplot for each species in its own panel (patchwork)
@@ -98,17 +111,13 @@ ggplot(data = salmon_ts_long,
 
 
 salmon_ts_long %>% 
-  mutate(fish = case_when(
-    fish == 'jack_coho' ~ "Jack Coho",
-    fish == 'coho' ~ "Coho",
-    fish == 'steelhead' ~ "Steelhead"
-  )) %>% 
   gg_season(y = count,
             pal = magma(10)) +
   labs(y = "Amount of Fish",
        x = "Month",
+       color = 'Year',
        title = "Salmon Ladder Use by Season",
-       caption = "PUT CAPTION HERE")
+       caption = "PUT CAPTION HERE (CITATION)")
 ```
 
 #### 4.1 Seasonal Analysis
@@ -118,10 +127,33 @@ salmon_ts_long %>%
 
 
 
+### 5. Annual Counts by Species {.tabset}
+
 ```{r}
 
+salmon_ts_year <- 
+  salmon %>% 
+  janitor::clean_names() %>% 
+  mutate_all(funs(ifelse(is.na(.), 0, .))) %>% 
+  mutate(date = lubridate::mdy(date),
+         year = year(date)) %>% 
+    pivot_longer(c(steelhead, coho, jack_coho),
+               names_to = "fish",
+               values_to = "count") %>% 
+  group_by(year, fish) %>% 
+  summarize(yearly_count = sum(count))
 
-# steelhead_season / coho_season / jack_coho_season
+ggplot(data = salmon_ts_year, aes(x = year, y = yearly_count)) +
+  geom_line(aes(color = fish)) +
+  scale_fill_manual(values = c('purple4', 'blue', 'salmon')) +
+  scale_x_continuous(breaks = c(2001, 2003, 2005, 2007, 2009)) +
+  labs(title = "Annual Counts of Salmon Species",
+       x = "Year",
+       y = "Amount of Species",
+       fill = "Salmon Species",
+       caption = "Figure 3. Annual amount of salmon species to use 
+       the fish ladder in XX (CITATION HERE).")
+
 ```
 
 
