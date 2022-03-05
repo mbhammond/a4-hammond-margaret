@@ -42,6 +42,11 @@ head(ca_subset_sf)
 
 ### 3. Create Interactive tmap
 ```{r}
+
+ca_oil_spill_sf <-
+  st_transform(ca_oil_spill_sf,
+               st_crs(ca_subset_sf))
+
 tmap_mode(mode = 'view')
 
 tm_shape(ca_subset_sf) +
@@ -54,6 +59,31 @@ tm_shape(ca_subset_sf) +
 
 
 ### 4. Choropleth Map of Oil Spill by County
+
+```{r}
+### Wrangle to find sesbania observations per county
+
+oil_county_sf <- ca_subset_sf %>% 
+  st_join(ca_oil_spill_sf)
+
+head(oil_county_sf)
+
+oil_counts_sf <- oil_county_sf %>% 
+  group_by(county_name) %>% 
+  summarize(oil_count = sum(!is.na(dfgcontrol)))
+
+head(oil_counts_sf)
+
+ggplot(data = oil_counts_sf) +
+  geom_sf(aes(fill = oil_count),
+          color = 'white', size = 0.1) +
+  scale_fill_gradientn(colors = c('lightgrey', 'orange', 'red')) +
+  theme_minimal() +
+  labs(fill = 'Oil Spill Total by County')
+
+```
+
+
 For this task, read in the spatial data, and create a professionally formatted and prepared HTML (showing all of your code directly or making it available with code-folding) from an .Rmd in which you: 
 Make an exploratory interactive map in tmap showing the location of oil spill events included in the data.
 Make a finalized static choropleth map in ggplot in which the fill color for each county depends on the count of inland oil spill events by county for the 2008 oil spill data
