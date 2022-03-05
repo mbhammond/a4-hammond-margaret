@@ -1,0 +1,63 @@
+---
+title: "Spatial Data Visualization"
+author: 'Margaret Hammond'
+date: '2/16/2022'
+output: 
+  html_document:
+    theme: flatly
+    code_folding: hide
+---
+
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(here)
+library(janitor)
+library(tidyverse)
+library(tmap)
+library(sf)
+
+```
+
+### 1. Summary
+
+In this task, I will be working with spatial data regarding the 2008 California DFW oil spill. The analysis will include an interactive tmap of the oil spill sites, and a static choropleth map for which color of each county depends on the count of inland oil spill events. 
+
+### 2. Read in the Spatial Data
+
+```{r}
+ca_oil_spill_sf <- read_sf(here('data/oil_spill/ds394.shp')) %>% 
+  clean_names()
+
+ca_counties_sf <- read_sf(here('data/ca_counties/CA_Counties_TIGER2016.shp')) 
+
+ca_subset_sf <- ca_counties_sf %>% 
+  clean_names() %>% 
+  select(county_name = name, land_area = aland)
+
+head(ca_oil_spill_sf)
+head(ca_subset_sf)
+```
+
+
+### 3. Create Interactive tmap
+```{r}
+tmap_mode(mode = 'view')
+
+tm_shape(ca_subset_sf) +
+  tm_fill('county_name', legend.show = FALSE) +
+  tm_shape(ca_oil_spill_sf) +
+  tm_dots() 
+
+
+```
+
+
+### 4. Choropleth Map of Oil Spill by County
+For this task, read in the spatial data, and create a professionally formatted and prepared HTML (showing all of your code directly or making it available with code-folding) from an .Rmd in which you: 
+Make an exploratory interactive map in tmap showing the location of oil spill events included in the data.
+Make a finalized static choropleth map in ggplot in which the fill color for each county depends on the count of inland oil spill events by county for the 2008 oil spill data
+ALSO INCLUDE OVERVIEW
+
+
+
