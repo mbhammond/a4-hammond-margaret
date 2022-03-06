@@ -22,7 +22,7 @@ library(knitr)
 ```
 
 
-```{r}
+```{r, echo = FALSE, out.width = "500px", fig.cap= "2012 Electric Lady Studios"}
 include_graphics('born_to_die.jpg')
 ```
 
@@ -122,13 +122,21 @@ ggplot(data = top_5_words) +
   geom_col(aes(x = n,
                y = word),
            fill = "pink2") +
-  facet_wrap(~song, scales = 'free') +
+  facet_wrap( ~song, 
+             labeller = label_wrap_gen(width = 12,
+                                       multi_line = TRUE),
+               scales = 'free') +
+  labs(x = "Lyric",
+       y = "Amount Used",
+       title = "Most Common Words in Born to Die, Lana Del Rey",
+       caption = "CAPTION HERE") +
+  ggplot2::theme(axis.text.y = element_text(size = 100)) +
   theme_minimal()
 ```
 
 ### Sentiment Analysis
 
-```{r}
+```{r, out.width= "600px"}
 lana_afinn <- lana_words_clean %>% 
   inner_join(get_sentiments('afinn'),
              by = 'word') %>% 
@@ -164,7 +172,7 @@ ggplot(data = lana_nrc_counts,
        aes(x = sentiment, 
            y = n)) +
   geom_col(fill = 'pink2') +
-  facet_wrap( ~song) +
+  facet_wrap( ~song, scales = "fixed") +
   labs(x = "Amount of NRC Words found",
        y = "NRC Sentiment",
        title = "NRC Sentiment Analysis of Born to Die",

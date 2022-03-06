@@ -1,7 +1,7 @@
 ---
 title: "Spatial Data Visualization"
 author: 'Margaret Hammond'
-date: '2/16/2022'
+date: '3/6/2022'
 output: 
   html_document:
     theme: flatly
@@ -72,7 +72,7 @@ oil_counts_sf <- oil_county_sf %>%
   group_by(county_name) %>% 
   summarize(oil_count = sum(!is.na(dfgcontrol)))
 
-head(oil_counts_sf)
+# head(oil_counts_sf)
 
 ggplot(data = oil_counts_sf) +
   geom_sf(aes(fill = oil_count),
@@ -83,6 +83,12 @@ ggplot(data = oil_counts_sf) +
 
 ```
 
+#### 4.1 Data Analysis
+From the map created above, we learn that:
+  - 
+  -
+  -
+  
 
 For this task, read in the spatial data, and create a professionally formatted and prepared HTML (showing all of your code directly or making it available with code-folding) from an .Rmd in which you: 
 Make an exploratory interactive map in tmap showing the location of oil spill events included in the data.
