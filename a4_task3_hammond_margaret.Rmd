@@ -18,6 +18,9 @@ library(tidytext)
 library(pdftools)
 library(ggwordcloud)
 library(knitr)
+library(plotly)
+library(ggplot2)
+library(grid)
 
 ```
 
@@ -110,7 +113,7 @@ lana_nonstop_counts <- lana_words_clean %>%
 
 ### Find top 5 words for each song
 
-```{r}
+```{r, fig.width = 7, fig.height = 7}
 top_5_words <- lana_nonstop_counts %>% 
   group_by(song) %>% 
   arrange(-n) %>% 
@@ -123,20 +126,21 @@ ggplot(data = top_5_words) +
                y = word),
            fill = "pink2") +
   facet_wrap( ~song, 
-             labeller = label_wrap_gen(width = 12,
-                                       multi_line = TRUE),
                scales = 'free') +
   labs(x = "Lyric",
        y = "Amount Used",
        title = "Most Common Words in Born to Die, Lana Del Rey",
        caption = "CAPTION HERE") +
-  ggplot2::theme(axis.text.y = element_text(size = 100)) +
+  theme(panel.spacing.x = unit(1, "lines"),
+                         panel.spacing.y = unit(1, "lines")) +
   theme_minimal()
+
+
 ```
 
 ### Sentiment Analysis
 
-```{r, out.width= "600px"}
+```{r, fig.width = 7, fig.height = 7}
 lana_afinn <- lana_words_clean %>% 
   inner_join(get_sentiments('afinn'),
              by = 'word') %>% 
@@ -178,7 +182,9 @@ ggplot(data = lana_nrc_counts,
        title = "NRC Sentiment Analysis of Born to Die",
        caption = "NRC Sentiment analysis of the lyrics in each track from Born to Die by Lana Del Rey (2012).") +
   coord_flip() +
-    theme_minimal()
+ #   theme(panel.spacing.x = unit(1, "lines"),
+ #                        panel.spacing.y = unit(1, "lines")) +
+  theme_minimal()
 ```
 ### Data Conclusion
 
