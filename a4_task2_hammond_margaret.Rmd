@@ -25,27 +25,27 @@ library(knitr)
 ```
 
 
-Summary 
+## Summary {.tabset}
 
-  ***need engaging image***
+
 In this task, I will be doing a time series analysis on adult fish passage from 2001 to 2011 at Willamette Falls fish ladder on the Willamette River, Oregon. In this document I will show a map of the fish ladder location, two time series analysis of adult passage for coho, jack coho, and steelhead salmon. Lastly, a graph will display the annual total counts of fish passage for the 3 selected species: coho, jack coho, and steelhead. 
 
-```{r}
+```{r, out.width = "400px", fig.cap = "Climbing the Ladder stock photo. Tammy Fullum, istockphoto.com"}
 knitr::include_graphics('salmon_fish_ladder.jpg')
 ```
 
-*Climbing the Ladder stock photo. Tammy Fullum, istockphoto.com*
-
-## Test Test {.tabset}
 
 
-  ***need engaging image***
-In this task, I will be doing a time series analysis on adult fish passage from 2001 to 2011 at Willamette Falls fish ladder on the Willamette River, Oregon. In this document I will show a map of the fish ladder location, two time series analysis of adult passage for coho, jack coho, and steelhead salmon. Lastly, a graph will display the annual total counts of fish passage for the 3 selected species: coho, jack coho, and steelhead. 
+
+```{r, out.width = "400px", fig.cap= "Fish Ladder Locations, CITE"}
+knitr::include_graphics('fishladdermap.jpg')
+```
 
 
-***HAVE TO INCORPORATE TABS*** 
+
+
   
-### 2. Read in the Data {.tabset}
+### 2. Read in the Data 
 
 ```{r}
 salmon <- read_csv(here('data/fish/willamette_fish_passage.csv'))
@@ -55,7 +55,7 @@ salmon <- read_csv(here('data/fish/willamette_fish_passage.csv'))
 
 
 
-### 3. ***MUST TAB THIS*** Original Time Series {.tabset}
+### 3.  Time Series Analysis
 
 ```{r}
 
@@ -90,13 +90,13 @@ ggplot(data = salmon_ts_long,
 
 ```
 
-#### 3.1 Time Series Analysis
+#### 3.1 Analysis Conclusions
   - Steelhead are the most consistent users of the fish ladder
   - Coho had the largest ladder us in 2010
   - Jack Coho species is the most infrequent user of the fish ladder, or the data had a hard time capturing their usage.
 
 
-### 4. ***NEW TAB*** Seasonplot {.tabset}
+### 4.  Seasonal Analysis
 
 ```{r}
 ### create a finalized seasonplot for each species in its own panel (patchwork)
@@ -127,14 +127,14 @@ salmon_ts_long %>%
        caption = "PUT CAPTION HERE (CITATION)")
 ```
 
-#### 4.1 Seasonal Analysis
-  - Steelhead salom use the fish ladder more from January - July than August - December.
+#### 4.1 Analysis Conclusions
+  - Steelhead salmon use the fish ladder more from January - July than August - December.
   - Both Jack Coho and Coho only use the ladder in the fall months, specifically around October.
   - None of the 3 salmon species use the ladder frequently during November and December. 
 
 
 
-### 5. Annual Counts by Species {.tabset}
+### 5. Annual Species Count
 
 ```{r}
 
@@ -164,9 +164,17 @@ ggplot(data = salmon_ts_year, aes(x = year, y = yearly_count)) +
 ```
 
 
-```{r}
-```
 
+
+
+
+
+
+
+
+
+
+## Data Citation
 
 
 
