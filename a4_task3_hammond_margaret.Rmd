@@ -25,13 +25,13 @@ library(grid)
 ```
 
 
-```{r, echo = FALSE, out.width = "500px", fig.cap= "2012 Electric Lady Studios"}
+```{r, echo = FALSE, out.width = "700px", fig.cap= "Electric Lady Studios 2012"}
 include_graphics('born_to_die.jpg')
 ```
 
 
 ## Overview {.tabset}
-In this task, I will be doing a text analysis on Lana Del Rey's breakout album, *Born to Die*. This 2012 album became a breakout pop sensation, and is known as a depressing, sensual, teen-angst love-laced album. I will be organizing the lyrics by track number, and doing an afinn analysis to see how positive or negative the lyrics are ranked. 
+In this task, I will be doing a text analysis on Lana Del Rey's breakout album, *Born to Die*. This 2012 album became a breakout pop sensation, and is known as a depressing, sensual, teen-angst, love-laced album. I will be organizing the lyrics by track number, and performing sentiment analysis and word counts to analyze each song 
 
 
 
@@ -113,7 +113,7 @@ lana_nonstop_counts <- lana_words_clean %>%
 
 ### Find top 5 words for each song
 
-```{r, fig.width = 7, fig.height = 7}
+```{r, fig.width = 10, fig.height = 10}
 top_5_words <- lana_nonstop_counts %>% 
   group_by(song) %>% 
   arrange(-n) %>% 
@@ -130,7 +130,7 @@ ggplot(data = top_5_words) +
   labs(x = "Lyric",
        y = "Amount Used",
        title = "Most Common Words in Born to Die, Lana Del Rey",
-       caption = "CAPTION HERE") +
+       caption = "Figure 1. Most common works in each track of Lana Del Rey's first album, Born To Die. (Electric Lady Studios 2012)") +
   theme(panel.spacing.x = unit(1, "lines"),
                          panel.spacing.y = unit(1, "lines")) +
   theme_minimal()
@@ -138,9 +138,9 @@ ggplot(data = top_5_words) +
 
 ```
 
-### Sentiment Analysis
+### Sentiment Analysis {.tabset}
 
-```{r, fig.width = 7, fig.height = 7}
+```{r}
 lana_afinn <- lana_words_clean %>% 
   inner_join(get_sentiments('afinn'),
              by = 'word') %>% 
@@ -153,16 +153,7 @@ lana_afinn_means <- lana_afinn %>%
   group_by(song) %>% 
   summarize(mean_affin = mean(value))
 
-ggplot(data = lana_afinn_means,
-       aes(x = fct_rev(factor(song)),
-           y = mean_affin)) +
-  geom_col(fill = "pink2") +
-  coord_flip() +
-  labs(y = "Mean Afinn Value",
-       x = "Track Title",
-       title = "Afinn Value for Born to Die by Lana del Rey",
-       caption = "Average Afinn value for each track on Born to Die, Lana del Rey's breakout 2012 album.") +
-  theme_minimal()
+
 
 
 lana_nrc <- lana_words_clean %>% 
@@ -172,27 +163,52 @@ lana_nrc_counts <- lana_nrc %>%
   count(no, song, sentiment) %>% 
   mutate(song = fct_reorder(song, no))
 
+
+```
+
+#### Tracklist Afinn Means 
+
+```{r, fig.width = 9, fig.height = 9}
+
+ggplot(data = lana_afinn_means,
+       aes(x = fct_rev(factor(song)),
+           y = mean_affin)) +
+  geom_col(fill = "pink2") +
+  coord_flip() +
+  labs(y = "Mean Afinn Value",
+       x = "Track Title",
+       title = "Afinn Value for Born to Die by Lana del Rey",
+       caption = "Figure 2. Average Afinn value for each track on Born to Die, Lana del Rey's breakout  album (Electric Lady Studios 2012).") +
+  theme_minimal()
+
+```
+
+
+#### Tracklist NRC Sentiment Analysis
+
+```{r, fig.width = 9, fig.height = 9}
+
 ggplot(data = lana_nrc_counts,
        aes(x = sentiment, 
            y = n)) +
   geom_col(fill = 'pink2') +
   facet_wrap( ~song, scales = "fixed") +
-  labs(x = "Amount of NRC Words found",
-       y = "NRC Sentiment",
-       title = "NRC Sentiment Analysis of Born to Die",
-       caption = "NRC Sentiment analysis of the lyrics in each track from Born to Die by Lana Del Rey (2012).") +
   coord_flip() +
- #   theme(panel.spacing.x = unit(1, "lines"),
- #                        panel.spacing.y = unit(1, "lines")) +
+  labs(y = "Amount of NRC Words",
+       x = "NRC Sentiment",
+       title = "NRC Sentiment Analysis of Born to Die",
+       caption = "Figure 3. NRC sentiment analysis of the lyrics in each track from Born to Die by Lana Del Rey (Electric Lady Studios 2012).") +
   theme_minimal()
 ```
+
+
+
 ### Data Conclusion
 
-Import text of your choosing (from a PDF, text file, or otherwise) - I encourage you to find some text that is of interest to you, but some suggestions for places to look are listed below this task. You can also import two text files if you want to do a comparison of most frequent words or sentiment analysis. 
-Wrangle the data to get tokens into tidy format, removing stop words
-Find and make a finalized visualization of counts for the most frequently used words in the text (this can be split up by chapter / section for comparison, or for the entire document), for example in a column graph or wordcloud, or both.
-Perform sentiment analysis using one of the lexicons introduced in Lab Week 9 (your choice), and present in a final visualization. 
-Include an overview section that briefly summarizes the dataset and your analysis.  This should as always include a well formatted data citation.
+*Born to Die* is Lana Del Rey's breakout 2012 album and is an important pop album to me. The album is filled with angst, lust, and romanticized depression. Her music filled the tumblr social media landscape, and began the flower-crown, pastel-blues era of fashion and pop culture. I wanted to do a text analysis of *Born to Die* to see how the songs were analyzed, as the album is overall very sad. I was shocked to see that the album was regarded as positive, as determined by the Afinn means analysis. Additionally, many songs rank highly in "positive" and "trust" values, when in reality these songs are not expressing these sentiments. This text analysis sheds light to the fact that *Born to Die* camouflages sad topics with bright lyrics and soft, crooning voice. This combination allows *Born to Die* to stump coding text analysis, but provides for a great album.
 
 
 ## Data Citation
+
+
+Electric Lady Studios, 2012. Lana Del Rey, Born to Die. 

@@ -49,10 +49,16 @@ ca_oil_spill_sf <-
 
 tmap_mode(mode = 'view')
 
-tm_shape(ca_subset_sf) +
-  tm_fill('county_name', legend.show = FALSE) +
-  tm_shape(ca_oil_spill_sf) +
-  tm_dots() 
+#tm_shape(ca_subset_sf) +
+ # tm_fill('county_name', legend.show = FALSE) +
+ # tm_shape(ca_subset_sf) +
+   tm_shape(ca_subset_sf) +
+      tm_borders() + 
+     tm_basemap(c(StreetMap = "OpenStreetMap",
+             TopoMap =
+               "OpenTopoMap")) +
+    tm_shape(ca_oil_spill_sf) +
+  tm_dots(col = "green3") 
 
 
 ```
@@ -79,7 +85,11 @@ ggplot(data = oil_counts_sf) +
           color = 'white', size = 0.1) +
   scale_fill_gradientn(colors = c('lightgrey', 'orange', 'red')) +
   theme_minimal() +
-  labs(fill = 'Oil Spill Total by County')
+  labs(fill = 'Oil Spill Total by County',
+       title = "2008 Oil Spill by California County",
+       caption = "Figure 2. Oil spill sources by county. 
+       The largest concentration of oil spill occured 
+       in Southwest, California. (Lampinen 2008)")
 
 ```
 
@@ -97,3 +107,4 @@ ALSO INCLUDE OVERVIEW
 
 ### 5. Data Citation
 
+Lampinen, M. 2008. Department of Fish and Game, Office of Spill Prevention and Response. 
