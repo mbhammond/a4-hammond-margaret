@@ -92,7 +92,7 @@ lana_songs <- lana_lines %>%
 ```
 
 
-#### Word count by Song
+#### Word Count by Song
 
 ```{r}
 lana_song_words <- lana_songs %>% 
@@ -127,8 +127,8 @@ ggplot(data = top_5_words) +
            fill = "pink2") +
   facet_wrap( ~song, 
                scales = 'free') +
-  labs(x = "Lyric",
-       y = "Amount Used",
+  labs(y = "Lyric",
+       x = "Amount Used",
        title = "Most Common Words in Born to Die, Lana Del Rey",
        caption = "Figure 1. Most common works in each track of Lana Del Rey's first album, Born To Die. (Electric Lady Studios 2012)") +
   theme(panel.spacing.x = unit(1, "lines"),
@@ -211,4 +211,4 @@ ggplot(data = lana_nrc_counts,
 ## Data Citation
 
 
-Electric Lady Studios, 2012. Lana Del Rey, Born to Die. 
+Electric Lady Studios, 2012. Lana Del Rey, *Born to Die*. 

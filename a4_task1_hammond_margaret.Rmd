@@ -1,5 +1,5 @@
 ---
-title: "Spatial Data Visualization"
+title: "Spatial Data Visualization of 2008 California Oil Spills"
 author: 'Margaret Hammond'
 date: '3/6/2022'
 output: 
@@ -19,7 +19,7 @@ library(sf)
 
 ```
 
-### 1. Summary
+### 1. Overview 
 
 In this task, I will be working with spatial data regarding the 2008 California DFW oil spill. The analysis will include an interactive tmap of the oil spill sites, and a static choropleth map for which color of each county depends on the count of inland oil spill events. 
 
@@ -35,8 +35,7 @@ ca_subset_sf <- ca_counties_sf %>%
   clean_names() %>% 
   select(county_name = name, land_area = aland)
 
-head(ca_oil_spill_sf)
-head(ca_subset_sf)
+
 ```
 
 
@@ -72,7 +71,6 @@ tmap_mode(mode = 'view')
 oil_county_sf <- ca_subset_sf %>% 
   st_join(ca_oil_spill_sf)
 
-head(oil_county_sf)
 
 oil_counts_sf <- oil_county_sf %>% 
   group_by(county_name) %>% 
@@ -87,23 +85,20 @@ ggplot(data = oil_counts_sf) +
   theme_minimal() +
   labs(fill = 'Oil Spill Total by County',
        title = "2008 Oil Spill by California County",
-       caption = "Figure 2. Oil spill sources by county. 
+       caption = "Figure 1. Oil spill sources by county. 
        The largest concentration of oil spill occured 
-       in Southwest, California. (Lampinen 2008)")
+       in southwest California. (Lampinen 2008)")
 
 ```
 
-#### 4.1 Data Analysis
+#### 4.01 Data Analysis
 From the map created above, we learn that:
-  - 
-  -
-  -
+
+  - Most spills were in the southwest region.
+  - More spills occured along the coast than the inland region.
+
   
 
-For this task, read in the spatial data, and create a professionally formatted and prepared HTML (showing all of your code directly or making it available with code-folding) from an .Rmd in which you: 
-Make an exploratory interactive map in tmap showing the location of oil spill events included in the data.
-Make a finalized static choropleth map in ggplot in which the fill color for each county depends on the count of inland oil spill events by county for the 2008 oil spill data
-ALSO INCLUDE OVERVIEW
 
 ### 5. Data Citation
 

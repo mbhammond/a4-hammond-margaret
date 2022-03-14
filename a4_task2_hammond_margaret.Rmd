@@ -1,5 +1,5 @@
 ---
-title: "Task 2: Time Series Summary"
+title: "Time Series Analysis of Salmon in Willamette Falls, Oregon"
 author: 'Margaret Hammond'
 date: '3/6/2022'
 output: 
@@ -25,7 +25,7 @@ library(knitr)
 ```
 
 
-## Summary {.tabset}
+## Overview {.tabset}
 
 
 In this task, I will be doing a time series analysis on adult fish passage from 2001 to 2011 at Willamette Falls fish ladder on the Willamette River, Oregon. In this document I will show a map of the fish ladder location, two time series analysis of adult passage for coho, jack coho, and steelhead salmon. Lastly, a graph will display the annual total counts of fish passage for the 3 selected species: coho, jack coho, and steelhead. 
@@ -37,7 +37,7 @@ knitr::include_graphics('salmon_fish_ladder.jpg')
 
 
 
-```{r, out.width = "400px", fig.cap= "Fish Ladder Locations, CITE"}
+```{r, out.width = "400px", fig.cap= "Fish Ladder Locations, (Columbia River DART 2010)"}
 knitr::include_graphics('fishladdermap.jpg')
 ```
 
@@ -80,14 +80,15 @@ ggplot(data = salmon_ts_long,
        y = 'Amount of Fish',
        color = "Salmon Species",
        caption = "Figure 1. Willamette Falls, Oregon fish ladder use by salmon species from 2001-2010 (Columbia River DART 2010)",
-       title = "Willamette Falls Fish Ladder use by Salmon Species") +
+       title = "Willamette Falls Fish Ladder 
+       use by Salmon Species") +
   theme_minimal()
 
 ```
 
 #### 2.01 Analysis Conclusions
-  - Steelhead are the most consistent users of the fish ladder
-  - Coho had the largest ladder us in 2010
+  - Steelhead are the most consistent users of the fish ladder.
+  - Coho had the largest ladder use in 2010.
   - Jack Coho species is the most infrequent user of the fish ladder, or the data had a hard time capturing their usage.
 
 
@@ -169,7 +170,7 @@ ggplot(data = salmon_ts_year, aes(x = year, y = yearly_count)) +
 
 #### 4.01 Species Count Analysis
 
-  - The annual count of Steelhead salmon held a declining trend, but had an upward spike in 2010.
+  - The annual count of Steelhead salmon was declining, but had an upward spike in 2010.
   - Coho population had a stable population count until 2008, then spiked upward in count.
   - Jack Coho salmon is the least populous and holds the most stable population trend. 
 
